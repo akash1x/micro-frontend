@@ -1,7 +1,7 @@
-import React from 'react'
-import { useCart } from 'host/cartStore'
+import { useSelector } from 'react-redux';
+import { selectCartProducts } from "host/Store";
 const Cart = () => {
-    const { cartProducts } = useCart()
+    const cartProducts = useSelector(selectCartProducts);
     const total = cartProducts.reduce((acc, item) => acc + item.price, 0).toFixed(2);
 
     if (cartProducts.length === 0) {

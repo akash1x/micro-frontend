@@ -12,7 +12,7 @@ export default defineConfig({
     name: 'host',
     filename: 'remoteEntry.js',
     exposes: {
-      './cartStore': './src/hooks/cartContext.jsx'
+      './Store': './src/store/index.jsx'
     },
     remotes: {
       products: {
