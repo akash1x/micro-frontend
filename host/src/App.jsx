@@ -1,28 +1,24 @@
-import { lazy, useState } from "react";
+import { lazy } from "react";
 import AppLayout from "./components/AppLayout";
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+
 const Products = lazy(() => import("products/Products"));
 const Cart = lazy(() => import("cart/Cart"));
 
 function App() {
-  const [cartProducts, setCartProducts] = useState([]);
-  const handleAddCart = (product) => {
-    setCartProducts([...cartProducts, product]);
-    console.log(cartProducts);
-  }
 
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <AppLayout cartProducts={cartProducts} />,
+      element: <AppLayout />,
       children: [
         {
           path: "/cart",
-          element: <Cart cartProducts={cartProducts} />
+          element: <Cart />
         },
         {
           path: "/products",
-          element: <Products handleAddCart={handleAddCart} />
+          element: <Products />
         }
       ]
     }
@@ -30,7 +26,6 @@ function App() {
 
   return (
     <RouterProvider router={router} />
-
   )
 }
 

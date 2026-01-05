@@ -1,6 +1,7 @@
 import React from 'react'
-
-const Cart = ({ cartProducts = [] }) => {
+import { useCart } from 'host/cartStore'
+const Cart = () => {
+    const { cartProducts } = useCart()
     const total = cartProducts.reduce((acc, item) => acc + item.price, 0).toFixed(2);
 
     if (cartProducts.length === 0) {

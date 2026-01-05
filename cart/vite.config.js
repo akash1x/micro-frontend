@@ -11,6 +11,15 @@ export default defineConfig({
     exposes: {
       './Cart': './src/components/Cart.jsx',
     },
+    remotes: {
+      host: {
+        type: "module",
+        name: "host",
+        entry: "http://localhost:5174/remoteEntry.js",
+        entryGlobalName: "host",
+        shareScope: "default",
+      },
+    },
     shared: ['react', 'react-dom']
   })],
   build: {

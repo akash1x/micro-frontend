@@ -1,13 +1,12 @@
 import Products from "./components/Products"
+import { CartContextProvider } from "host/cartStore"
 
 function App() {
 
   return (
-    <>
-      <p className="read-the-docs">
-        <Products />
-      </p>
-    </>
+    <CartContextProvider>
+      <Products />
+    </CartContextProvider>
   )
 }
 

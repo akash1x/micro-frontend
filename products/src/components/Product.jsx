@@ -1,6 +1,7 @@
 import React from 'react'
-
-const Product = ({ product, handleAddCart }) => {
+import { useCart } from 'host/cartStore'
+const Product = ({ product }) => {
+    const { setCartProducts } = useCart()
     return (
         <div key={product.id} style={{ border: '1px solid #e0e0e0', borderRadius: '12px', padding: '1.5rem', display: 'flex', flexDirection: 'column', boxShadow: '0 4px 6px rgba(0,0,0,0.05)', backgroundColor: '#fff' }}>
             <h3 style={{ margin: '0 0 0.5rem 0', fontSize: '1.25rem' }}>{product.title}</h3>
@@ -9,7 +10,7 @@ const Product = ({ product, handleAddCart }) => {
                 <span style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#2c3e50' }}>${product.price}</span>
                 <button
                     style={{ padding: '0.6rem 1.2rem', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '6px', cursor: 'pointer', fontWeight: '600', transition: 'background 0.2s' }}
-                    onClick={() => handleAddCart(product)}
+                    onClick={() => setCartProducts(prev => [...prev, product])}
                 >
                     Add to Cart
                 </button>
