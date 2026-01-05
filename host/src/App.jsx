@@ -1,18 +1,36 @@
-import { lazy } from "react";
-import Header from "./components/Header";
-import Footer from "./components/Footer";
-
+import { lazy, useState } from "react";
+import AppLayout from "./components/AppLayout";
+import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 const Products = lazy(() => import("products/Products"));
+const Cart = lazy(() => import("cart/Cart"));
 
 function App() {
+  const [cartProducts, setCartProducts] = useState([]);
+  const handleAddCart = (product) => {
+    setCartProducts([...cartProducts, product]);
+    console.log(cartProducts);
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <AppLayout cartProducts={cartProducts} />,
+      children: [
+        {
+          path: "/cart",
+          element: <Cart cartProducts={cartProducts} />
+        },
+        {
+          path: "/products",
+          element: <Products handleAddCart={handleAddCart} />
+        }
+      ]
+    }
+  ])
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <Header />
-      <div style={{ flex: 1, padding: '2rem' }}>
-        <Products />
-      </div>
-      <Footer />
-    </div>
+    <RouterProvider router={router} />
+
   )
 }
 
