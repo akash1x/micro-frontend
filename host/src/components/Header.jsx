@@ -1,6 +1,7 @@
 import React from 'react';
-
-const Header = () => {
+import { Link } from 'react-router-dom';
+const Header = ({ cartProducts }) => {
+    console.log(cartProducts)
     return (
         <header style={{
             backgroundColor: '#f69435',
@@ -13,8 +14,8 @@ const Header = () => {
             <h1 style={{ margin: 0 }}>Micro-Frontend Host</h1>
             <nav>
                 <ul style={{ display: 'flex', listStyle: 'none', gap: '1rem', margin: 0 }}>
-                    <li><a href="/" style={{ color: 'white', textDecoration: 'none' }}>Products</a></li>
-                    <li><a href="#" style={{ color: 'white', textDecoration: 'none' }}>Cart</a></li>
+                    <li><Link to="/products" style={{ color: 'white', textDecoration: 'none' }}>Products</Link></li>
+                    <li><Link to="/cart" style={{ color: 'white', textDecoration: 'none' }}>Cart {cartProducts.length}</Link></li>
                 </ul>
             </nav>
         </header>
