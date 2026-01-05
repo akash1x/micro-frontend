@@ -33,4 +33,31 @@ This project is a micro-frontend architecture implementation using **Vite** and 
 ## Setup Details
 
 1. **Host Config**: Configured to load the `products` module asynchronously.
-2. **Products Config**: Configured to build a `remoteEntry.js` file that the host can consume.
+2. **Cart Config**: Configured to build a `remoteEntry.js` file for the cart component.
+
+## Recent Updates (Auto-generated)
+
+### Features Implemented
+
+- **Cart Micro-Frontend**: Added a new `cart` remote application running on port `5176`.
+- **Host Enhancements**:
+  - Added `Header` and `Footer` components.
+  - Configured navigation to include Cart.
+  - Integrated `Cart` MFE into the Host.
+- **Products Enhancements**:
+  - Implemented `Product` component for individual item display.
+  - Added API integration (dummyjson.com) to fetch real product data.
+  - Styled product grid.
+
+### New Concepts Used
+
+- **Lazy Loading**: Used `React.lazy` and `Suspense` (implied with federation) to load remote components only when needed.
+- **State Management & Effects**: Used `useState` and `useEffect` hooks for data fetching in the Products MFE.
+- **Component Composition**: Composed the Host layout using local Header/Footer and remote Products/Cart components.
+
+### Updated Architecture Details
+
+- **Cart Application**:
+  - **Path**: `/cart`
+  - **Port**: `5176`
+  - **Exposes**: `./Cart`

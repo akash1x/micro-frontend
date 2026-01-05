@@ -20,6 +20,13 @@ export default defineConfig({
         entryGlobalName: "products",
         shareScope: "default",
       },
+      cart: {
+        type: 'module',
+        name: 'cart',
+        entry: 'http://localhost:5176/remoteEntry.js',
+        entryGlobalName: 'cart',
+        shareScope: 'default'
+      }
     },
     shared: ['react', 'react-dom']
   })
