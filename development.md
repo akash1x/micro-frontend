@@ -1,6 +1,6 @@
 # Development Documentation
 
-> Last Updated: 2026-01-05 15:22:52
+> Last Updated: 2026-01-05 17:25:34
 
 ## Overview
 
@@ -11,6 +11,7 @@ This project is a micro-frontend architecture implementation using **Vite** and 
 - **Micro-Frontends**: Splitting a monolithic frontend into smaller, manageable, and independent applications.
 - **Vite**: A fast build tool and development server.
 - **Module Federation**: A JavaScript architecture invented by Zack Jackson that allows sharing code between multiple applications at runtime. We are using `@module-federation/vite` for this integration.
+- **Shared State Management (Context API)**: The Host application exposes a `CartContext` which is consumed by remote applications (`products`, `cart`) to share state (cart items) across the micro-frontend ecosystem.
 
 ## Architecture
 
@@ -18,9 +19,11 @@ This project is a micro-frontend architecture implementation using **Vite** and 
 
 - **Path**: `/host`
 - **Port**: `5174`
-- **Role**: The main container that consumes remote modules.
+- **Role**: The main container that consumes remote modules and provides shared state.
 - **Configuration**:
   - Consumes `products` remote from `http://localhost:5175/remoteEntry.js`.
+  - Consumes `cart` remote from `http://localhost:5176/remoteEntry.js`.
+  - Exposes `./cartStore` (`./src/hooks/cartContext.jsx`) for shared state.
   - Shared dependencies: `react`, `react-dom`.
 
 ### Products Application
@@ -30,36 +33,34 @@ This project is a micro-frontend architecture implementation using **Vite** and 
 - **Role**: A remote application that exposes components.
 - **Configuration**:
   - Exposes `./Products` component (mapped to `./src/components/Products.jsx`).
+  - Consumes `host` remote to access `CartContext`.
+  - Shared dependencies: `react`, `react-dom`.
+
+### Cart Application
+
+- **Path**: `/cart`
+- **Port**: `5176`
+- **Role**: A remote application that exposes the Cart component.
+- **Configuration**:
+  - Exposes `./Cart`.
+  - Consumes `host` remote to access `CartContext`.
   - Shared dependencies: `react`, `react-dom`.
 
 ## Setup Details
 
-1. **Host Config**: Configured to load the `products` module asynchronously.
-2. **Cart Config**: Configured to build a `remoteEntry.js` file for the cart component.
+1. **Host Config**: Configured to load products and cart modules. Exposes cartStore.
+2. **Products Config**: Configured to consume host for cartStore.
+3. **Cart Config**: Configured to consume host for cartStore.
 
 ## Recent Updates (Auto-generated)
 
 ### Features Implemented
 
-- **Cart Micro-Frontend**: Added a new `cart` remote application running on port `5176`.
-- **Host Enhancements**:
-  - Added `Header` and `Footer` components.
-  - Configured navigation to include Cart.
-  - Integrated `Cart` MFE into the Host.
-- **Products Enhancements**:
-  - Implemented `Product` component for individual item display.
-  - Added API integration (dummyjson.com) to fetch real product data.
-  - Styled product grid.
+- **Shared State Management**: Implemented `CartContext` in Host and exposed it to remotes.
+- **Refactored Data Flow**: Removed prop drilling. `Products` and `Cart` now access cart state directly via context.
+- **Bidirectional Federation**: Host consumes UI from remotes; Remotes consume logic (Context) from Host.
 
 ### New Concepts Used
 
-- **Lazy Loading**: Used `React.lazy` and `Suspense` (implied with federation) to load remote components only when needed.
-- **State Management & Effects**: Used `useState` and `useEffect` hooks for data fetching in the Products MFE.
-- **Component Composition**: Composed the Host layout using local Header/Footer and remote Products/Cart components.
-
-### Updated Architecture Details
-
-- **Cart Application**:
-  - **Path**: `/cart`
-  - **Port**: `5176`
-  - **Exposes**: `./Cart`
+- **Context Sharing**: Sharing React Context providers and hooks across module federation boundaries.
+- **Bidirectional Dependencies**: Host depends on Remotes (for UI), and Remotes depend on Host (for Logic/State).

@@ -11,7 +11,9 @@ export default defineConfig({
   federation({
     name: 'host',
     filename: 'remoteEntry.js',
-    exposes: {},
+    exposes: {
+      './cartStore': './src/hooks/cartContext.jsx'
+    },
     remotes: {
       products: {
         type: "module",

@@ -1,7 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-const Header = ({ cartProducts }) => {
-    console.log(cartProducts)
+import { useCart } from '../hooks/cartContext';
+
+const Header = () => {
+    const { cartProducts } = useCart();
+
     return (
         <header style={{
             backgroundColor: '#f69435',

@@ -13,6 +13,16 @@ export default defineConfig({
     exposes: {
       './Products': './src/components/Products.jsx',
     },
+    remotes: {
+      host: {
+        type: "module",
+        name: "host",
+        entry: "http://localhost:5174/remoteEntry.js",
+        entryGlobalName: "host",
+        shareScope: "default",
+      },
+    },
+
     shared: ['react', 'react-dom']
   })],
   build: {
