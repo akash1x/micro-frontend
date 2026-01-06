@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useCart } from '../hooks/cartContext';
+import { useSelector } from 'react-redux';
+import { selectCartProducts } from '../store/feature/cartSlice';
 
 const Header = () => {
-    const { cartProducts } = useCart();
+    const cartProducts = useSelector(selectCartProducts);
 
     return (
         <header style={{

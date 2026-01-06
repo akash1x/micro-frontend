@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react"
-import axios from "axios"
+import { useGetProductsQuery } from "host/Store"
 import Product from "./Product"
 
-
 const Products = () => {
-    const [products, setProducts] = useState([])
-    useEffect(() => {
-        axios.get('https://dummyjson.com/products').then(res => {
-            setProducts(res.data.products)
-        })
-    }, [])
+    const { data, isLoading } = useGetProductsQuery()
+    const products = data?.products || []
+
+    if (isLoading) return <div>Loading...</div>
 
     return (
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '1.5rem', padding: '1.5rem' }}>
